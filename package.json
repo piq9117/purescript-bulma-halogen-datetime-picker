@@ -1,0 +1,24 @@
+{
+  "name": "purescript-bulma-halogen-datetime-picker",
+  "version": "1.0.0",
+  "description": "Halogen DateTime picker style with bulma.io",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "gitea@taezos.org:taezos/spago-halogen-scaffold.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
+  },
+  "dependencies": {
+    "bulma": "^0.8.0",
+    "bulma-calendar": "^6.0.7",
+    "http-server": "^0.12.1"
+  }
+}
