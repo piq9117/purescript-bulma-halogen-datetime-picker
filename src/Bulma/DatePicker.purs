@@ -5,6 +5,7 @@ import Prelude
 -- Internal
 import Bulma.Common ( DateTimePickerSpec )
 import Bulma.Common as Common
+import Bulma.Header as Header
 -- UUID
 import Data.UUID as UUID
 -- Halogen
@@ -16,6 +17,10 @@ type State =
   { options :: DateTimePickerSpec
   }
 
+type ChildSlot =
+  ( header :: Header.Slot Unit
+  )
+
 component :: forall q i o m. H.Component HH.HTML q i o m
 component =
   H.mkComponent
@@ -25,8 +30,7 @@ component =
     { handleAction = handleAction }
   }
 
-
-render :: forall action m. State -> H.ComponentHTML action () m
+render :: forall action m. State -> H.ComponentHTML action ChildSlot m
 render st =
   HH.div
   [ HP.id_ ( UUID.toString st.options.elemId ) ]
@@ -46,36 +50,24 @@ render st =
       [ HH.text "+" ]
     ]
   , HH.div
-    [ Common.css $ "datetimepicker-wraper" <> Common.displayModeToString st.options.displayMode ]
+    [ Common.css $ "datetimepicker-wrapper " <> Common.displayModeToString st.options.displayMode ]
     [ HH.div
-      [ Common.css $ "modal-background" <> Common.displayModeToString st.options.displayMode ]
+      [ Common.css $ "modal-background " <> st.options.isModal ]
       []
     , HH.div
-      [ Common.css "datetimepicker" ]
+      [ Common.css
+        $ "datetimepicker is-datetimepicker-default "
+        <> st.options.color
+        <> " "
+        <> Common.dropDownStateToString st.options.dropDownState
+      ]
       [ HH.div
-        [ Common.css $ "datetimepicker-container" <> Common.headerPosToString st.options.headerPosition ]
-        []
+        [ Common.css $ "datetimepicker-container " <> Common.headerPosToString st.options.headerPosition ]
+        [ HH.slot Header._header unit Header.component unit absurd ]
       ]
     ]
   ]
 
-handleAction :: forall action o m. action -> H.HalogenM State action () o m Unit
+handleAction :: forall action o m. action -> H.HalogenM State action ChildSlot o m Unit
 handleAction = const $ pure unit
 
--- export default (data) => {
---   return `<div id='${data.id}'>
---     <div class="datetimepicker-dummy is-hidden">
---       <div class="datetimepicker-dummy-wrapper">
---         <input placeholder="${data.labelFrom}" readonly="readonly" class="datetimepicker-dummy-input${data.isRange ? ' is-datetimepicker-range' : ''}" type="text">
---         ${data.isRange ? `<input placeholder="${data.labelTo}" readonly="readonly" class="datetimepicker-dummy-input" type="text">`: ''}
---       </div>
---       <button class="datetimepicker-clear-button">＋</button>
---     </div>
---     <div class="datetimepicker-wrapper${data.displayMode === 'dialog' ? ' modal' : ''}">
---         <div class="modal-background${data.displayMode === 'dialog' ? '' : ' is-hidden'}"></div>
---         <div class="datetimepicker">
---           <div class="datetimepicker-container${data.headerPosition === 'top' ? '' : ' has-header-bottom'}"></div>
---         </div>
---     </div>
---   </div>`;
--- };

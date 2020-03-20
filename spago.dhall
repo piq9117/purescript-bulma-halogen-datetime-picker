@@ -9,6 +9,7 @@ You can edit this file as you like.
     , "effect"
     , "halogen"
     , "psci-support"
+    , "svg-parser-halogen"
     , "uuid"
     , "web-html"
     ]
