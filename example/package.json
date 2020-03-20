@@ -21,6 +21,8 @@
   },
   "dependencies": {
     "bulma": "^0.8.0",
-    "http-server": "^0.12.1"
+    "http-server": "^0.12.1",
+    "uuid": "^7.0.2",
+    "uuid-validate": "0.0.3"
   }
 }
